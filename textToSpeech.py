@@ -2,7 +2,7 @@ from gtts import gTTS
 import os
 
 # Specify the text you want to convert
-text = "Hello, I am Swarup"
+text = "Hello Aniket"
 
 # Create a gTTS object
 tts = gTTS(text=text, lang='en')

@@ -1,16 +1,25 @@
-from google.cloud.language_v1 import LanguageServiceClient
+import openai
 
-# Set up the client
-client = LanguageServiceClient()
+openai.api_key = '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'
 
+#setting context to the chatgpt
+messages = [
+    {"role" : "system", "content" : "You are assistant in the library"}, 
+]
 
-# Create a request
-document = language_v1.Document(content="Tell me a joke.", type_=language_v1.Document.Type.PLAIN_TEXT)
-response = client.analyze_sentiment(document=document)
+while True:
+    message = input("User : ")
+    if message:
+        messages.append(
+            {"role": "user", "content" : message}, 
+        )
 
-# Process the sentiment analysis response
-sentiment = response.document_sentiment
-print(f"Sentiment score: {sentiment.score}")
+        chat = openai.ChatCompletion.create(
+            model = "gpt-3.5-turbo", 
+            messages = messages
+        )
 
-# Note: Google Cloud Natural Language API doesn't have an equivalent to "Complete" as in OpenAI's GPT.
-# It primarily provides sentiment analysis, entity analysis, and syntax analysis.
+    reply = chat.choices[0].message.content
+    print(f"ChatBot:{reply}")
+    messages.append({"role": "assistant", "content" : reply})
+
